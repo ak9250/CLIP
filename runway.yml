@@ -5,7 +5,6 @@ spec:
   gpu: True
   cpu: False
 build_steps:
-  - pip install runway-python fastai==1.0.61 numpy==1.17.2 pandas==1.1.2 torch==1.6.0 torchvision===0.7.0
   - pip install torch torchvision ftfy regex runway-python numpy
   - wget https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt -O model.pt
   - wget https://openaipublic.azureedge.net/clip/bpe_simple_vocab_16e6.txt.gz -O bpe_simple_vocab_16e6.txt.gz
