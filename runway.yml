@@ -1,13 +1,12 @@
 entrypoint: python runway_model.py
 python: 3.6
-cuda: 11.0
-cuda_flavor: devel
+cuda: 10.2
 spec:
   gpu: True
   cpu: False
 build_steps:
   - apt-get install wget
-  - conda install --yes -c pytorch pytorch=1.7.1 torchvision cudatoolkit=11.0
+  - conda install --yes -c pytorch pytorch=1.7.1 torchvision cudatoolkit=10.2
   - pip install runway-python ftfy regex tqdm
   - wget https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt -O model.pt
   - wget https://openaipublic.azureedge.net/clip/bpe_simple_vocab_16e6.txt.gz -O bpe_simple_vocab_16e6.txt.gz
