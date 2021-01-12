@@ -9,12 +9,12 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, transform = clip.load("ViT-B/32", device=device)
 
 # Download the dataset
-# cifar100 = CIFAR100(root=os.path.expanduser("~/.cache"), download=True, train=False)
+cifar100 = CIFAR100(root="./data", download=True, train=False)
 
 @runway.command('translate', inputs={'source_imgs': runway.image(description='input image to be translated')}, outputs={'text': runway.text})
 def translate(learn, inputs):
     image = transform(inputs['source_imgs']).unsqueeze(0).to(device)
-    text_inputs = torch.cat([clip.tokenize("a photo of a tiger")]).to(device)
+    text_inputs = torch.cat([clip.tokenize(f"a photo of a {c}") for c in cifar100.classes]).to(device)
 
     # Calculate features
     with torch.no_grad():
@@ -28,7 +28,8 @@ def translate(learn, inputs):
     values, indices = similarity[0].topk(5)
 
     # Print the result
-    text = 'hello'
+    for value, index in zip(values, indices):
+        text = f"{cifar100.classes[index]:>16s}: {100 * value.item():.2f}%"
     return text
 
 if __name__ == '__main__':
