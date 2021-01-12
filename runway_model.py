@@ -5,8 +5,7 @@ from PIL import Image
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, transform = clip.load("ViT-B/32", device=device)
 
-
-@runway.command('translate', inputs={'source_imgs': runway.image(description='input image to be translated'),}, outputs={'text': runway.text(description='output image containing the translated result')})
+@runway.command('translate', inputs={'source_imgs': runway.image(description='input image to be translated')}, outputs={'text': runway.text})
 def translate(learn, inputs):
     image = transform(inputs['source_imgs']).unsqueeze(0).to(device)
     text = clip.tokenize(["a diagram", "a dog", "a cat"]).to(device)
@@ -19,7 +18,6 @@ def translate(learn, inputs):
         probs = logits_per_image.softmax(dim=-1).cpu().numpy()
         
     return probs
-
 
 if __name__ == '__main__':
     runway.run(port=8889)
