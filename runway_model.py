@@ -6,20 +6,19 @@ import runway
 
 # Load the model
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model, preprocess = clip.load('ViT-B/32', device)
+model, transform = clip.load("ViT-B/32", device=device)
 
 # Download the dataset
-cifar100 = CIFAR100(os.path.expanduser("~/"), download=True, train=False)
-
+cifar100 = CIFAR100(root=os.path.expanduser("~/.cache"), download=True, train=False)
 
 @runway.command('translate', inputs={'source_imgs': runway.image(description='input image to be translated')}, outputs={'text': runway.text})
 def translate(learn, inputs):
-    image_input = preprocess(inputs['source_imgs']).unsqueeze(0).to(device)
+    image = transform(inputs['source_imgs']).unsqueeze(0).to(device)
     text_inputs = torch.cat([clip.tokenize(f"a photo of a {c}") for c in cifar100.classes]).to(device)
 
     # Calculate features
     with torch.no_grad():
-        image_features = model.encode_image(image_input)
+        image_features = model.encode_image(image)
         text_features = model.encode_text(text_inputs)
 
     # Pick the top 5 most similar labels for the image
