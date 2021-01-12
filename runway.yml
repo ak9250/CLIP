@@ -10,3 +10,4 @@ build_steps:
   - pip install runway-python ftfy regex tqdm
   - wget https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt -O model.pt
   - wget https://openaipublic.azureedge.net/clip/bpe_simple_vocab_16e6.txt.gz -O bpe_simple_vocab_16e6.txt.gz
+  - mkdir data && wget https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz && tar -xvzf cifar-100-python.tar.gz -C data

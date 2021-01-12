@@ -9,7 +9,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, transform = clip.load("ViT-B/32", device=device)
 
 # Download the dataset
-os.makedirs('data', exist_ok=True)
+# os.makedirs('data', exist_ok=True)
 cifar100 = CIFAR100(root="./data", download=False, train=False)
 
 @runway.command('translate', inputs={'source_imgs': runway.image(description='input image to be translated')}, outputs={'text': runway.text})
