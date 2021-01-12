@@ -1,6 +1,7 @@
 import torch
 import clip
 from PIL import Image
+import runway
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, transform = clip.load("ViT-B/32", device=device)
