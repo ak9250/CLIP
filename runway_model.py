@@ -28,9 +28,10 @@ def translate(learn, inputs):
     similarity = (100.0 * image_features @ text_features.T).softmax(dim=-1)
     values, indices = similarity[0].topk(5)
 
+    text=""
     # Print the result
     for value, index in zip(values, indices):
-        text = f"{cifar100.classes[index]:>16s}: {100 * value.item():.2f}%"
+        text+=f"{cifar100.classes[index]:>16s}: {100 * value.item():.2f}%\n"
     return text
 
 if __name__ == '__main__':
